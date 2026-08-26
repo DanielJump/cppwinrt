@@ -243,6 +243,17 @@ namespace winrt::impl
         return { w, write_close_namespace };
     }
 
+    [[nodiscard]] static finish_with wrap_type_namespace_without_export(writer& w, std::string_view const& ns)
+    {
+        auto format = R"(namespace winrt::@
+{
+)";
+
+        w.write(format, ns);
+
+        return { w, write_close_namespace };
+    }
+
     static void write_enum_field(writer& w, Field const& field)
     {
         auto format = R"(        % = %,
@@ -1533,24 +1544,36 @@ namespace winrt::impl
         else if (type_name == "Windows.Foundation.IAsyncAction")
         {
             w.write(R"(        auto get() const;
+        // Synchronously waits without asserting that the calling thread is not an STA.
+        // Use only when the STA is not presenting UI and blocking is known to be safe.
+        auto get_unchecked() const;
         auto wait_for(Windows::Foundation::TimeSpan const& timeout) const;
 )");
         }
         else if (type_name == "Windows.Foundation.IAsyncOperation`1")
         {
             w.write(R"(        auto get() const;
+        // Synchronously waits without asserting that the calling thread is not an STA.
+        // Use only when the STA is not presenting UI and blocking is known to be safe.
+        auto get_unchecked() const;
         auto wait_for(Windows::Foundation::TimeSpan const& timeout) const;
 )");
         }
         else if (type_name == "Windows.Foundation.IAsyncActionWithProgress`1")
         {
             w.write(R"(        auto get() const;
+        // Synchronously waits without asserting that the calling thread is not an STA.
+        // Use only when the STA is not presenting UI and blocking is known to be safe.
+        auto get_unchecked() const;
         auto wait_for(Windows::Foundation::TimeSpan const& timeout) const;
 )");
         }
         else if (type_name == "Windows.Foundation.IAsyncOperationWithProgress`2")
         {
             w.write(R"(        auto get() const;
+        // Synchronously waits without asserting that the calling thread is not an STA.
+        // Use only when the STA is not presenting UI and blocking is known to be safe.
+        auto get_unchecked() const;
         auto wait_for(Windows::Foundation::TimeSpan const& timeout) const;
 )");
         }
