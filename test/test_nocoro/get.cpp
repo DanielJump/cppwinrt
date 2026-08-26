@@ -80,17 +80,22 @@ TEST_CASE("get_unchecked")
     // This is the scenario the new API is designed for: an STA that is not
     // presenting UI, where a synchronous blocking wait is safe.
     std::exception_ptr failure{};
-    std::thread sta_thread([&failure]
+    bool content_available = false;
+    std::thread sta_thread([&failure, &content_available]
     {
         try
         {
             winrt::init_apartment(winrt::apartment_type::single_threaded);
+            struct apartment_guard
+            {
+                ~apartment_guard()
+                {
+                    winrt::uninit_apartment();
+                }
+            } guard;
 
             auto content = PathIO::ReadTextAsync(L"C:\\Windows\\win.ini").get_unchecked();
-
-            REQUIRE(content.size() > 0);
-
-            winrt::uninit_apartment();
+            content_available = content.size() > 0;
         }
         catch (...)
         {
@@ -104,4 +109,6 @@ TEST_CASE("get_unchecked")
     {
         std::rethrow_exception(failure);
     }
+
+    REQUIRE(content_available);
 }
