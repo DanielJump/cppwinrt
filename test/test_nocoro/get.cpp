@@ -74,7 +74,7 @@ TEST_CASE("get")
     REQUIRE(acs.as<IAsyncOperation<uint32_t>>().get() == 0xDEADBEEF);
 }
 
-TEST_CASE("get_only_safe_from_non_presenting_sta")
+TEST_CASE("get_unchecked")
 {
     // Call a real WinRT async operation from an STA thread.
     // This is the scenario the new API is designed for: an STA that is not
@@ -86,7 +86,7 @@ TEST_CASE("get_only_safe_from_non_presenting_sta")
         {
             winrt::init_apartment(winrt::apartment_type::single_threaded);
 
-            auto content = PathIO::ReadTextAsync(L"C:\\Windows\\win.ini").get_only_safe_from_non_presenting_sta();
+            auto content = PathIO::ReadTextAsync(L"C:\\Windows\\win.ini").get_unchecked();
 
             REQUIRE(content.size() > 0);
 

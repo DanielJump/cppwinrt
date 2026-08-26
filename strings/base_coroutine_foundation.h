@@ -233,7 +233,7 @@ WINRT_EXPORT namespace winrt::impl
         impl::wait_get(static_cast<Windows::Foundation::IAsyncAction const&>(static_cast<D const&>(*this)));
     }
     template <typename D>
-    auto consume_Windows_Foundation_IAsyncAction<D>::get_only_safe_from_non_presenting_sta() const
+    auto consume_Windows_Foundation_IAsyncAction<D>::get_unchecked() const
     {
         impl::wait_get_bypass_sta_check(static_cast<Windows::Foundation::IAsyncAction const&>(static_cast<D const&>(*this)));
     }
@@ -249,7 +249,7 @@ WINRT_EXPORT namespace winrt::impl
         return impl::wait_get(static_cast<Windows::Foundation::IAsyncOperation<TResult> const&>(static_cast<D const&>(*this)));
     }
     template <typename D, typename TResult>
-    auto consume_Windows_Foundation_IAsyncOperation<D, TResult>::get_only_safe_from_non_presenting_sta() const
+    auto consume_Windows_Foundation_IAsyncOperation<D, TResult>::get_unchecked() const
     {
         return impl::wait_get_bypass_sta_check(static_cast<Windows::Foundation::IAsyncOperation<TResult> const&>(static_cast<D const&>(*this)));
     }
@@ -265,7 +265,7 @@ WINRT_EXPORT namespace winrt::impl
         impl::wait_get(static_cast<Windows::Foundation::IAsyncActionWithProgress<TProgress> const&>(static_cast<D const&>(*this)));
     }
     template <typename D, typename TProgress>
-    auto consume_Windows_Foundation_IAsyncActionWithProgress<D, TProgress>::get_only_safe_from_non_presenting_sta() const
+    auto consume_Windows_Foundation_IAsyncActionWithProgress<D, TProgress>::get_unchecked() const
     {
         impl::wait_get_bypass_sta_check(static_cast<Windows::Foundation::IAsyncActionWithProgress<TProgress> const&>(static_cast<D const&>(*this)));
     }
@@ -281,7 +281,7 @@ WINRT_EXPORT namespace winrt::impl
         return impl::wait_get(static_cast<Windows::Foundation::IAsyncOperationWithProgress<TResult, TProgress> const&>(static_cast<D const&>(*this)));
     }
     template <typename D, typename TResult, typename TProgress>
-    auto consume_Windows_Foundation_IAsyncOperationWithProgress<D, TResult, TProgress>::get_only_safe_from_non_presenting_sta() const
+    auto consume_Windows_Foundation_IAsyncOperationWithProgress<D, TResult, TProgress>::get_unchecked() const
     {
         return impl::wait_get_bypass_sta_check(static_cast<Windows::Foundation::IAsyncOperationWithProgress<TResult, TProgress> const&>(static_cast<D const&>(*this)));
     }
