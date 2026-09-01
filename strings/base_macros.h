@@ -23,6 +23,11 @@
 #define WINRT_IMPL_SHIM(...) (*(abi_t<__VA_ARGS__>**)&static_cast<__VA_ARGS__ const&>(static_cast<D const&>(*this)))
 
 #ifdef _MSC_VER
+// These disables deliberately apply to the remainder of the file that includes
+// this header, because they cover declarations made throughout C++/WinRT. The
+// including file opens a #pragma warning(push) beforehand and pops it at the
+// end, which keeps them from escaping into consumer code.
+
 // Note: this is a workaround for a false-positive warning produced by the Visual C++ 15.9 compiler.
 #pragma warning(disable : 5046)
 
